@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from random import sample
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://db_proyecto_9jbb_user:WsO37mgJvqXHCIZvRLtGb7fvLuZ0DihR@dpg-crgfo7aj1k6c739hkqr0-a.oregon-postgres.render.com/db_proyecto_9jbb'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://db_proyecto_9jbb_user:WsO37mgJvqXHCIZvRLtGb7fvLuZ0DihR@dpg-crgfo7aj1k6c739hkqr0-a/db_proyecto_9jbb'
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 db = SQLAlchemy(app)
@@ -117,4 +117,4 @@ def compare_answers():
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()  # Crear tablas en la base de datos
-    app.run(debug=True) 
+    app.run(debug=False) 
