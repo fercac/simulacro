@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from random import sample
+import os
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://db_proyecto_9jbb_user:WsO37mgJvqXHCIZvRLtGb7fvLuZ0DihR@dpg-crgfo7aj1k6c739hkqr0-a/db_proyecto_9jbb'
