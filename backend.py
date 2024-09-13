@@ -82,14 +82,22 @@ def update_question():
     tema = data["tema"]
     nivel = data["nivel"]
 
+    # Buscar la entrada en la base de datos
     entry = TablaA.query.get(id)
     if not entry:
         return jsonify({"error": "ID no encontrado"}), 404
 
-    setattr(entry, pregunta, respuesta, tema, nivel)  # Se actualiza el campo especificado
+    # Actualizar los campos individualmente
+    entry.pregunta = pregunta
+    entry.respuesta = respuesta
+    entry.tema = tema
+    entry.nivel = nivel
+
+    # Guardar los cambios en la base de datos
     db.session.commit()
 
-    return jsonify({"message": f"pregunta {pregunta}, respuesta {respuesta}, tema {tema}, nivel {nivel} actualizado correctamente en el ID {id}"}), 200
+    return jsonify({"message": f"Pregunta actualizada correctamente en el ID {id}"}), 200
+
 
 # API para seleccionar aleatoriamente 10 IDs de la Tabla A y retornar preguntas
 @app.route("/random_questions", methods=["GET"])
