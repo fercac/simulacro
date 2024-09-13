@@ -74,7 +74,7 @@ def save_question():
     return jsonify({"message": "Pregunta guardada correctamente", "id": new_question.id}), 201
 
 @app.route("/update_question", methods=["POST"])
-def update_field():
+def update_question():
     data = request.get_json()
     id = data["id"]
     pregunta = data["pregunta"]
