@@ -73,19 +73,23 @@ def save_question():
 
     return jsonify({"message": "Pregunta guardada correctamente", "id": new_question.id}), 201
 
-@app.route("/update_question/<int:id>", methods=["PUT"])
-def update_question(id):
-    question = TablaA.query.get(id)
-    if not question:
-        return jsonify({"error": "Pregunta no encontrada"}), 404
-
+@app.route("/update_question", methods=["POST"])
+def update_field():
     data = request.get_json()
-    question.pregunta = data.get("pregunta", question.pregunta)
-    question.respuesta = data.get("respuesta", question.respuesta)
-    question.tema = data.get("tema", question.tema)
-    question.nivel = data.get("nivel", question.nivel)
+    id = data["id"]
+    pregunta = data["pregunta"]
+    respuesta = data["respuesta"]
+    tema = data["tema"]
+    nivel = data["nivel"]
 
+    entry = TablaA.query.get(id)
+    if not entry:
+        return jsonify({"error": "ID no encontrado"}), 404
+
+    setattr(entry, pregunta, respuesta, tema, nivel)  # Se actualiza el campo especificado
     db.session.commit()
+
+    return jsonify({"message": f"pregunta {pregunta}, respuesta {respuesta}, tema {tema}, nivel {nivel} actualizado correctamente en el ID {id}"}), 200
 
 # API para seleccionar aleatoriamente 10 IDs de la Tabla A y retornar preguntas
 @app.route("/random_questions", methods=["GET"])
