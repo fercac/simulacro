@@ -65,23 +65,41 @@ def update_field():
 
 # API para guardar en la Tabla A
 @app.route("/save_question", methods=["POST"])
-def save_question():
-    data = request.get_json()
-    pregunta = data["pregunta"]
-    claveA = data["claveA"]
-    claveB = data["claveB"]
-    claveC = data["claveC"]
-    claveD = data["claveD"]
-    claveE = data["claveE"]
-    respuesta = data["respuesta"]
-    tema = data["tema"]
-    nivel = data["nivel"]
+def save_questions():
+    data = request.get_json()  # Suponemos que 'data' es una lista de registros
+    saved_questions = []
 
-    new_question = TablaA(pregunta=pregunta, claveA=claveA, claveB=claveB, claveC=claveC, claveD=claveD, claveE=claveE, respuesta=respuesta, tema=tema, nivel=nivel)
-    db.session.add(new_question)
-    db.session.commit()
+    for question_data in data:
+        pregunta = question_data["pregunta"]
+        claveA = question_data["claveA"]
+        claveB = question_data["claveB"]
+        claveC = question_data["claveC"]
+        claveD = question_data["claveD"]
+        claveE = question_data["claveE"]
+        respuesta = question_data["respuesta"]
+        tema = question_data["tema"]
+        nivel = question_data["nivel"]
 
-    return jsonify({"message": "Pregunta guardada correctamente", "id": new_question.id}), 201
+        new_question = TablaA(
+            pregunta=pregunta,
+            claveA=claveA,
+            claveB=claveB,
+            claveC=claveC,
+            claveD=claveD,
+            claveE=claveE,
+            respuesta=respuesta,
+            tema=tema,
+            nivel=nivel
+        )
+
+        db.session.add(new_question)
+        db.session.flush()  # Genera el ID de la pregunta antes de hacer commit
+        saved_questions.append({"id": new_question.id})
+
+    db.session.commit()  # Guarda todos los cambios a la vez
+
+    return jsonify({"message": "Preguntas guardadas correctamente", "saved_questions": saved_questions}), 201
+
 
 @app.route("/update_question", methods=["POST"])
 def update_question():
