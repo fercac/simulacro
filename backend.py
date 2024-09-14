@@ -15,6 +15,11 @@ db = SQLAlchemy(app)
 class TablaA(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     pregunta = db.Column(db.String(200), nullable=False)
+    claveA = db.Column(db.String(200), nullable=False)
+    claveB = db.Column(db.String(200), nullable=False)
+    claveC = db.Column(db.String(200), nullable=False)
+    claveD = db.Column(db.String(200), nullable=False)
+    claveE = db.Column(db.String(200), nullable=False)
     respuesta = db.Column(db.String(200), nullable=False)
     tema = db.Column(db.String(100), nullable=False)
     nivel = db.Column(db.String(50), nullable=False)
@@ -63,11 +68,16 @@ def update_field():
 def save_question():
     data = request.get_json()
     pregunta = data["pregunta"]
+    claveA = data["claveA"]
+    claveB = data["claveB"]
+    claveC = data["claveC"]
+    claveD = data["claveD"]
+    claveE = data["claveE"]
     respuesta = data["respuesta"]
     tema = data["tema"]
     nivel = data["nivel"]
 
-    new_question = TablaA(pregunta=pregunta, respuesta=respuesta, tema=tema, nivel=nivel)
+    new_question = TablaA(pregunta=pregunta, claveA=claveA, claveB=claveB, claveC=claveC, claveD=claveD, claveE=claveE, respuesta=respuesta, tema=tema, nivel=nivel)
     db.session.add(new_question)
     db.session.commit()
 
@@ -78,6 +88,11 @@ def update_question():
     data = request.get_json()
     id = data["id"]
     pregunta = data["pregunta"]
+    claveA = data["claveA"]
+    claveB = data["claveB"]
+    claveC = data["claveC"]
+    claveD = data["claveD"]
+    claveE = data["claveE"]
     respuesta = data["respuesta"]
     tema = data["tema"]
     nivel = data["nivel"]
@@ -89,6 +104,11 @@ def update_question():
 
     # Actualizar los campos individualmente
     entry.pregunta = pregunta
+    entry.claveA = claveA
+    entry.claveB = claveB
+    entry.claveC = claveC
+    entry.claveD = claveD
+    entry.claveE = claveE
     entry.respuesta = respuesta
     entry.tema = tema
     entry.nivel = nivel
@@ -145,6 +165,7 @@ def compare_answers():
 
 if __name__ == '__main__':
     with app.app_context():
+        db.drop_all()
         db.create_all()  # Crear tablas en la base de datos
     port = int(os.environ.get('PORT', 5000)) 
     app.run(host='0.0.0.0', port=port, debug=False) 
