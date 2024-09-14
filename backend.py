@@ -129,7 +129,7 @@ def random_questions():
     random_ids = sample([q.id for q in TablaA.query.all()], 10)  # Seleccionar 10 IDs aleatoriamente
     selected_questions = TablaA.query.filter(TablaA.id.in_(random_ids)).all()
 
-    response = [{"id": q.id, "pregunta": q.pregunta} for q in selected_questions]
+    response = [{"id": q.id, "pregunta": q.pregunta, "claveA": q.claveA, "claveB": q.claveB,"claveC": q.claveC,"claveD": q.claveD,"claveE": q.claveE, } for q in selected_questions]
     return jsonify(response), 200
 
 # API para comparar respuestas de la Tabla A y Tabla B
